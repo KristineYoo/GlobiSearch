@@ -1,0 +1,45 @@
+.shadow {
+    filter: blur(90px);
+    border-radius: 100%;
+    width: 90%;
+    height: 300px;
+    position: absolute;
+    top: -19%;
+    box-shadow: 0px -50px 120px rgba(236, 232, 255, 0.5);
+    background-image: linear-gradient(180deg,  
+      #FFFFFF 0%,   /* Brighter glow at the top */
+      #ECE8FF 25%,  /* Soft lavender */
+      #6A3EA1 50%,  /* Richer purple */
+      #3A1B5C 70%,  /* Deep purple */
+      #181A24 85%,  /* Darker background blend */
+      #0F0F1D 100%  /* Final deep tone */
+  );
+  }
+  
+  .text-span-gradient{
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-image: linear-gradient(135deg, #A970FF, #F2F2F2, #A970FF);
+  }
+  
+  .sora-medium {
+    font-family: "Sora", serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+  }
+  
+  .sora-light {
+    font-family: "Sora", serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+  }
+  
+  h1 {
+    font-size: 5rem;
+    color: #F2F2F2;
+  }
+  body {
+    background-image: linear-gradient(135deg, #1B1B2F, #181A24, #0F0F1D);
+  }

@@ -2,6 +2,7 @@ import  { useState, useEffect } from 'react';
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import LandingPage from './components/LandingPage'
 import Button from '@mui/material/Button';
 import Typewriter from './components/Typewriter';
 
@@ -13,6 +14,7 @@ function App() {
 
   return (
     <>
+      <LandingPage />
       <div>
         <Button variant="contained" color="primary">
           Hello World

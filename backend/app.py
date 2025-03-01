@@ -1,5 +1,5 @@
 from flask import Flask
-
+from scripts import search
 
 # create main flask app (no templates)
 app = Flask(__name__)
@@ -7,12 +7,12 @@ app = Flask(__name__)
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    pass
+    return "hello, codefest"
 
 
 @app.route("/search", methods=["GET", "POST"])
 def search_page():
-    pass
+    return "main page"
 
 
 
