@@ -99,10 +99,32 @@ def get_score(data):
 """TOP RESULTS
 [ Data ] -> [ Result[] ]
 Description:
-Returns the top n results based on the score attributes
+Returns the top n results based on the score attributes in the format:
+{
+    'title':
+    'snippet':
+    'link':
+    'language':
+}
 """
 def get_top_results(data, n):
-    pass
+    ranked = []
+    # for each search result, add its info to the ranked list
+    for lang in data:
+        for result in data[lang][1]:
+            return_obj = result[0]
+            return_obj['lang'] = lang
+            return_obj['temp'] = result[2]
+            
+            ranked.append(return_obj)
+    
+    #sort ranked
+    ranked = sorted(ranked, key=lambda x: x['temp'], reverse=True)
+    #remove temp
+    for i in ranked:
+        i.pop('temp')
+
+    return ranked if n > len(ranked) else ranked[:n]
 
 """ Debugging """
 
@@ -110,5 +132,5 @@ if __name__ == "__main__":
     
     add_embeddings(test_data)
     get_score(test_data)
-    print(test_data)
+    print(get_top_results(test_data, 5))
     
