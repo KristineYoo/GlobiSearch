@@ -1,5 +1,6 @@
 import os
 import openai
+import numpy as np
 import requests
 from openai import OpenAI
 from bs4 import BeautifulSoup
@@ -19,7 +20,7 @@ PROJECT_ID = os.environ.get('PROJECT_ID')
 PARENT = f"projects/{PROJECT_ID}"
 
 
-def search_user_language(user_search: str, language_code: str="eng") -> list[dict]:
+def search_user_language(user_search: str, language_code: str="en") -> list[dict]:
     """
     ### Search user's google search in their regular language 
     - This performs their a 'regular' google search
@@ -123,6 +124,69 @@ def generate_chatgpt_description(potential_descriptions: str, want_response_obj:
     # return the model's text response
     return chat_response
 
+
+def find_search_differences(multilang_search_info: list[ list[dict, np.array, float,] ]) -> str:
+    """
+    ### Find the differences between the top ranked searches 
+    Use ChatGPT API to find the differences between searches
+
+    Hardcode the prompt since we're just checking out differences
+    between searches
+
+    #### args:
+    multilang_search_info: the multilang_search_info is a dict where
+    - key = language_code
+
+    - value = 
+    translated_prompt,
+    list that contains multiple lists w/ each list containing
+    [ structured_dict, embeddings, score ]
+    """
+    
+    multilang_results = []
+
+    for language_code, prompt_info in multilang_search_info.items():
+        # we grab first index since the 0th index is the prompt; search_info is list of lists
+        search_info = prompt_info[1]
+
+        # for each list in search_info (lists)
+        for list in search_info:
+           
+           # append the info and exclude the embedding and score from the rest of the list
+           multilang_results.append(list[0])
+           
+
+
+
+    prompt = f"""
+    I will give you multiple searches all being the same prompt but in different languages.
+    Each search has differences because of the change in language despite being the same prompt.
+    Take a look at the top 5 hits for each language's search and see if there is any notable
+    thing that is different or interesting, keep the maximum length of your response 
+    to one paragraph. Here is the data of each search which is in list format, please parse through this.
+
+
+        {multilang_results}
+    """
+
+    response = openai.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": "You're a helpful assistant trying to find differences between the same google search in different languages"},
+            {"role": "user", "content": prompt},
+        ],
+        temperature=0.6,
+        max_tokens=200,
+    )
+
+    # response_obj -> choices entry -> first entry in choices list (choice obj)-> messages entry
+    chat_response = response.choices[0].message.content
+
+    # return the model's text response
+    return chat_response
+
+
+
 def get_website_description(url: str) -> str | None:
     """
     ### finds a better description for a webpage:
@@ -179,13 +243,19 @@ def search_dif_languages(user_search: str, languages: list) -> dict:
 
         # stores info by making new dict key-value pair; None placeholder for embedding
         search_data[lang_code] = [
-            translated_text, [[translated_search_info, None, None]]
+            translated_text, 
+            [translated_search_info, None, None]
         ]
+        for key, list in search_data.items():
+            # get the original description of web hit
+            # og_description = list[0]
+            pass
     return search_data
 
 
 
 search_info = search_user_language("I want to make pizza")
+
 
 translated_text = translate_text("es", "good morning how do you do")
 
@@ -193,8 +263,11 @@ translated_text = translate_text("es", "good morning how do you do")
 language_codes = ["es", "fr", "ja"]
 multilang_search_info = search_dif_languages(user_search="I want to make pizza", languages=language_codes)
 
-for lang, prompt in multilang_search_info.items():
-    print(f"language: {lang}\n{prompt}")
+for mystery, language in multilang_search_info.items():
+    print(f"\nmystery: {mystery} another mystery: {language}\n")
+    for entry in language: # with prompt=es 
+        # item is first (prompt) and second list of dict
+        print(f"what is this and why is it here: {entry}\n\n")
 
 # testing chatgpt response
 example_link = "https://www.myplate.gov/es/recipes/pizza-facil-y-rapida"
