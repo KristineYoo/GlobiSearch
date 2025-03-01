@@ -6,10 +6,12 @@ export default function PromptBox() {
     return (
 
 
-        <Box >
+        <div style={{ border: 'none' }}>
             <TextfieldBox />
             <LangaugeSelect />
-        </Box>
+
+        </div>
+
 
 
 
