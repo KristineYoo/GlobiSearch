@@ -89,17 +89,30 @@ def search_dif_languages(user_search: str, languages: list) -> dict:
 
         # stores info by making new dict key-value pair; None placeholder for embedding
         search_data[lang_code] = [
-            translated_text, [[translated_search_info, None, None]]
+            translated_text, [[i, None, None] for i in translated_search_info]
         ]
+
+    # results is a dictionary
+        # key: language code
+        # value: a List
+            # [0] search query in given language
+            # [1] list of lists
+                # [0] List
+                    # [0] Dictionnary
+                        # keys: title, link, snippet
+                        # values: those values from google
+                    # [1] Embedding
+                    # [2] Score
+                # [] next one
     return search_data
 
         
+if __name__ == "__main__":
+    language_codes = ["es", "fr", "ja"] # testing 
+    search_info = search_user_language("I want to make pizza")
+    translated_text = translate_text("es", "good morning how do you do")
 
-language_codes = ["es", "fr", "ja"] # testing 
-search_info = search_user_language("I want to make pizza")
-translated_text = translate_text("es", "good morning how do you do")
-
-print(search_dif_languages(user_search="I want to make pizza", languages=language_codes))
+    print(search_dif_languages(user_search="I want to make pizza", languages=language_codes))
 
 
 
