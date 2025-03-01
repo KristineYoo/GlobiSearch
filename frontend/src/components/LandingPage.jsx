@@ -1,7 +1,11 @@
 import './LandingPage.css';
 import TryNowButton from './TryNowButton';
+import TypewriterButton from './TypewriterButton';
+
 
 function LandingPage(){
+
+
     return (
         <>
         <div style={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
@@ -12,6 +16,7 @@ function LandingPage(){
               Your AI search engine to find information in 50+ languages
               <span role="img" aria-label="globe">🌐</span>
             </h2>
+            <TypewriterButton/>
             <TryNowButton />
           </div>
         </div>
