@@ -178,10 +178,9 @@ def search_dif_languages(user_search: str, languages: list) -> dict:
 
 
         # stores info by making new dict key-value pair; None placeholder for embedding
-        search_data[lang_code] = {
-            translated_text:
-                (translated_search_info, None)
-        }
+        search_data[lang_code] = [
+            translated_text, [[translated_search_info, None, None]]
+        ]
     return search_data
 
 
