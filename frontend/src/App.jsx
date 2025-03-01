@@ -15,9 +15,6 @@ function App() {
   return (
     <>
       <LandingPage />
-      <Box  sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}} >
-      <Button fullWidth variant="contained" sx={{ borderRadius: 8, justifyContent: 'center', height:70}}><Typewriter strings={texts} speed={100} delay={1500}/></Button>
-      </Box>
     </>
   )
 }
