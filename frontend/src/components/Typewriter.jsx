@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
+
+
+
 
 const Typewriter = ({ strings, speed = 100, delay = 1000 }) => {
   const [currentStringIndex, setCurrentStringIndex] = useState(0);
@@ -37,7 +38,7 @@ const Typewriter = ({ strings, speed = 100, delay = 1000 }) => {
     return () => clearTimeout(timer);
   }, [currentStringIndex, displayedText, isDeleting, strings, speed, delay]);
 
-  return <span>{displayedText}</span>;
+  return <p>{displayedText}</p>
 };
 
 export default Typewriter;

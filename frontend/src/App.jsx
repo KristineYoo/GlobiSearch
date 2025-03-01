@@ -3,42 +3,21 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import LandingPage from './components/LandingPage'
-import Button from '@mui/material/Button';
 import Typewriter from './components/Typewriter';
-
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 function App() {
   const [count, setCount] = useState(0)
 
-  const texts=["hello how are you", "I am good", "How are you"]
+  const texts=["We are here to help!", "以 一百三多种语言进行搜索", "Comment pouvons-nous vous aider"]
 
 
   return (
     <>
       <LandingPage />
-      <div>
-        <Button variant="contained" color="primary">
-          Hello World
-        </Button>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <Typewriter strings={texts} speed={80} delay={500}/>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Box  sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', width:1/2}} >
+      <Button fullWidth variant="contained" sx={{ borderRadius: 8, justifyContent: 'center', height:70}}><Typewriter strings={texts} speed={100} delay={1500}/></Button>
+      </Box>
     </>
   )
 }
