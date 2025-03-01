@@ -104,7 +104,7 @@ Returns the top n results based on the score attributes in the format:
     'title':
     'snippet':
     'link':
-    'language':
+    'lang':
 }
 """
 def get_top_results(data, n):
