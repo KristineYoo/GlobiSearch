@@ -38,7 +38,7 @@ const Typewriter = ({ strings, speed = 100, delay = 1000 }) => {
     return () => clearTimeout(timer);
   }, [currentStringIndex, displayedText, isDeleting, strings, speed, delay]);
 
-  return <p>{displayedText}</p>
+  return <p class='typer'>{displayedText}</p>
 };
 
 export default Typewriter;
