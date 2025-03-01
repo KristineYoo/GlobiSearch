@@ -8,6 +8,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 # sensitive info
+backed/venv
 .env
 hackathon-1740701928796-80a7ac379559.json
 
