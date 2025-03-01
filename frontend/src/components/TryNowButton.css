@@ -1,0 +1,33 @@
+.sora {
+    font-family: "Sora", serif !important;
+    font-optical-sizing: auto;
+}
+
+.sora-medium {
+    font-family: "Sora", serif !important;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+  
+.sora-light {
+    font-family: "Sora", serif !important;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+}
+
+.sora-xlight {
+    font-family: "Sora", serif !important;
+    font-optical-sizing: auto;
+    font-weight: 100;
+    font-style: normal;
+}
+
+
+.try-now-button:hover {
+    color: white !important;
+    box-shadow: inset 0 0 0 1px #B983FF30, inset 0 -11px 11px #9b5ef7 !important;
+    transform: scale(1.05);
+    transition: all 0.3s ease !important;
+}
