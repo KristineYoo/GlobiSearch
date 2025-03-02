@@ -8,7 +8,7 @@ from google.cloud import translate
 from google.cloud import translate_v2 as translate
 from dotenv import load_dotenv
 from googleapiclient.discovery import build
-from .rank import get_top_results, add_embeddings, get_score
+from rank import get_top_results, add_embeddings, get_score
 
 
 # load env variables and openAI client
@@ -274,7 +274,7 @@ def change_top_descriptions(top_hits: list[dict]):
 if __name__ == "__main__":
     # testing for codes
     language_codes = ["es", "fr", "ja", "it", "en"]
-    multilang_search_info = search_dif_languages(user_search="who is george washington", languages=language_codes)
+    multilang_search_info = search_dif_languages(user_search="Competitive programming chinese remainder theorem problems", languages=language_codes)
     mulitlang_differences = find_search_differences(multilang_search_info)
 
     print(f"The top 3 hits across all langs: {multilang_search_info}\n\n")

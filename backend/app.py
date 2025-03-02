@@ -1,12 +1,13 @@
-from flask import Flask, jsonify, request
 import json
+from flask import Flask, jsonify, request
+from flask_cors import CORS
 from scripts import search
 from scripts.search import search_dif_languages
 from scripts.rank import add_embeddings, get_score, get_top_results
 
 # create main flask app (no templates)
 app = Flask(__name__)
-
+CORS(app)
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -23,7 +24,7 @@ def get_search_results():
     input = request.get_json()
     search_query=input["search_query"]
     languages=input["languages"]
-    
+
     # validate
     if not isinstance(search_query, str):
         return jsonify({"message": "Invalid item"}), 400
