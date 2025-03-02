@@ -8,7 +8,7 @@ from google.cloud import translate
 from google.cloud import translate_v2 as translate
 from dotenv import load_dotenv
 from googleapiclient.discovery import build
-from rank import get_top_results, add_embeddings, get_score
+from .rank import get_top_results, add_embeddings, get_score
 
 
 # load env variables and openAI client

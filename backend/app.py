@@ -4,6 +4,7 @@ from flask_cors import CORS
 from scripts import search
 from scripts.search import search_dif_languages
 from scripts.rank import add_embeddings, get_score, get_top_results
+from flask_cors import CORS
 
 # create main flask app (no templates)
 app = Flask(__name__)
@@ -35,7 +36,7 @@ def get_search_results():
     # add_embeddings(results)
     # get_score(results)
     # return top 5 results
-    return jsonify({'top-results':results[:5]})
+    return jsonify({'topResults':results[:5]})
 
 
 

@@ -6,22 +6,22 @@ import CardActions from '@mui/material/CardActions';
 
 
 function ResultCard(info) {
-    console.log(info["title"])
+    console.log(info.info.title)
     return(
         <Card sx={{maxWidth:400, backgroundColor:"#ECE8FF"}}>
             <CardContent>
                 <Typography variant='h5'>
-                    {info["title"]}
+                    {info.info.title}
                 </Typography>
                 <Typography variant='body2'>
-                    From {info["lang"]}
+                    From {info.info.lang}
                 </Typography>
                 <Typography variant='body1'>
-                    {info["snippet"]}
+                    {info.info.snippet}
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button  variant="text" size='small' component="a" href={info.link} target="_blank">Visit Site</Button>
+                <Button  variant="text" size='small' component="a" href={info.info.link} target="_blank">Visit Site</Button>
             </CardActions>
         </Card>
     )
