@@ -11,7 +11,7 @@ export default function PromptBox() {
         if (textInput.trim() || selectedLanguages.length > 0) {
             // Save both pieces of data here
             console.log('Saving data:', {
-                text: textInput,
+                search_query: textInput,
                 languages: selectedLanguages
             });
             // You can replace console.log with your saving logic (e.g., API call)
