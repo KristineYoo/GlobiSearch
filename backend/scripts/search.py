@@ -236,10 +236,21 @@ def search_dif_languages(user_search: str, languages: list) -> dict:
     get_score(search_data)
 
     multilang_top_hits = get_top_results(search_data, 3)
-    
-    
+
+    return multilang_top_hits
+
+def change_top_descriptions(top_hits: list[dict]):
+    """
+    ### Returns possible changed descriptions in top 3 hits
+    across all languages
+    - Returns same data structure for best search results
+    (list of dicts) just with changed descriptions from gpt api
+
+    #### args:
+    top_hits: list of dicts
+    """
     # try to change the description of top 3 best results to revised summary
-    for hit in multilang_top_hits:
+    for hit in top_hits:
         web_url = hit["link"]
         # try changing the snippet description for each entry in list
         try:
@@ -252,7 +263,7 @@ def search_dif_languages(user_search: str, languages: list) -> dict:
         except:
             pass  
 
-    return multilang_top_hits
+    return top_hits
 
 
 
