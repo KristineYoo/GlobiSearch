@@ -30,11 +30,11 @@ def get_search_results():
     
     # search the user prompt and get result data
     results = search_dif_languages(search_query, languages)
-    # add embeddings and rank data
-    add_embeddings(results)
-    get_score(results)
+    # # add embeddings and rank data
+    # add_embeddings(results)
+    # get_score(results)
     # return top 5 results
-    return jsonify({'top-results':get_top_results(results, 5)})
+    return jsonify({'top-results':results[:5]})
 
 
 

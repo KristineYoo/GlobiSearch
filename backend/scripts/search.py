@@ -8,6 +8,7 @@ from google.cloud import translate
 from google.cloud import translate_v2 as translate
 from dotenv import load_dotenv
 from googleapiclient.discovery import build
+from .rank import get_top_results, add_embeddings, get_score
 
 
 # load env variables and openAI client
@@ -215,7 +216,7 @@ def search_dif_languages(user_search: str, languages: list) -> dict:
     code and the value storing the prompt in its requested language and tuple
     with the structured dict returned from 'search_user_language' and the embedding
     """
-    from rank import get_top_results, add_embeddings, get_score
+    
 
     search_data = {}
 
