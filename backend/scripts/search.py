@@ -9,6 +9,7 @@ from google.cloud import translate_v2 as translate
 from dotenv import load_dotenv
 from googleapiclient.discovery import build
 
+
 # load env variables and openAI client
 load_dotenv()
 client = OpenAI()
@@ -36,7 +37,8 @@ def search_user_language(user_search: str, language_code: str="en") -> list[dict
     search_result = engine.cse().list(
         q=user_search,
         cx=SEARCH_ENGINE_ID,
-        hl=language_code 
+        hl=language_code,
+        num=5
     ).execute()
 
 
@@ -96,10 +98,10 @@ def generate_chatgpt_description(potential_descriptions: str, want_response_obj:
             added summary of what this webpage is about in the language of the web page!
             Make this description/summary always in context of the web page (by keeping
             the page's terminology and specifics etc..) and 
-            keep it a paragraph's length at max always. Retain 
-            the most important information
-            and give it backed in a nice formatted short 
-            paragraph. here is the html code.
+            keep it at 2-3 sentences length at max always. Retain 
+            the most important information and give it backed in a nice 
+            formatted short 2-3 sentences length, always remember to always make it in the
+            specific language inside the html tags. here is the html code.
             
 
             {potential_descriptions}
@@ -125,7 +127,7 @@ def generate_chatgpt_description(potential_descriptions: str, want_response_obj:
     return chat_response
 
 
-def find_search_differences(multilang_search_info: list[ list[dict, np.array, float,] ]) -> str:
+def find_search_differences(multilang_search_info: list[dict]) -> str:
     """
     ### Find the differences between the top ranked searches 
     Use ChatGPT API to find the differences between searches
@@ -134,39 +136,25 @@ def find_search_differences(multilang_search_info: list[ list[dict, np.array, fl
     between searches
 
     #### args:
-    multilang_search_info: the multilang_search_info is a dict where
-    - key = language_code
-
-    - value = 
-    translated_prompt,
-    list that contains multiple lists w/ each list containing
-    [ structured_dict, embeddings, score ]
+    multilang_search_info: the multilang_search_info is a list where
+    each dict has 4 keys
+    - prompt
+    - link
+    - snippet (desc)
+    - lang (in lang-code)
     """
     
-    multilang_results = []
-
-    for language_code, prompt_info in multilang_search_info.items():
-        # we grab first index since the 0th index is the prompt; search_info is list of lists
-        search_info = prompt_info[1]
-
-        # for each list in search_info (lists)
-        for list in search_info:
            
-           # append the info and exclude the embedding and score from the rest of the list
-           multilang_results.append(list[0])
-           
-
-
-
     prompt = f"""
     I will give you multiple searches all being the same prompt but in different languages.
     Each search has differences because of the change in language despite being the same prompt.
-    Take a look at the top 5 hits for each language's search and see if there is any notable
-    thing that is different or interesting, keep the maximum length of your response 
-    to one paragraph. Here is the data of each search which is in list format, please parse through this.
+    Take a look at the top 3 hits for each language's search and see if there is any notable
+    thing that is different or interesting, don't generalize about the culture's based off these
+    results just point out what you noticed from the very specific sources. Keep the maximum length of your response 
+    to 2 sentences. Here is the data of each search which is in list format, please parse through this.
 
 
-        {multilang_results}
+        {multilang_search_info}
     """
 
     response = openai.chat.completions.create(
@@ -205,9 +193,6 @@ def get_website_description(url: str) -> str | None:
     try:
         response = requests.get(url)
         page_html = response.text
-        
-        # this will fail if its specific file format that won't work
-        soup = BeautifulSoup(page_html, "html.parser")
       
         potential_descriptions = str(page_html)
 
@@ -217,7 +202,7 @@ def get_website_description(url: str) -> str | None:
         return best_description
     
     except:
-       None
+       return None
 
 
 def search_dif_languages(user_search: str, languages: list) -> dict:
@@ -230,6 +215,7 @@ def search_dif_languages(user_search: str, languages: list) -> dict:
     code and the value storing the prompt in its requested language and tuple
     with the structured dict returned from 'search_user_language' and the embedding
     """
+    from rank import get_top_results, add_embeddings, get_score
 
     search_data = {}
 
@@ -243,56 +229,40 @@ def search_dif_languages(user_search: str, languages: list) -> dict:
 
         # stores info by making new dict key-value pair; None placeholder for embedding
         search_data[lang_code] = [
-<<<<<<< HEAD
-            translated_text, 
-            [translated_search_info, None, None]
-        ]
-        for key, list in search_data.items():
-            # get the original description of web hit
-            # og_description = list[0]
-            pass
-    return search_data
-=======
             translated_text, [[i, None, None] for i in translated_search_info]
         ]
->>>>>>> origin/main
+    
+    add_embeddings(search_data)
+    get_score(search_data)
 
-    # results is a dictionary
-        # key: language code
-        # value: a List
-            # [0] search query in given language
-            # [1] list of lists
-                # [0] List
-                    # [0] Dictionnary
-                        # keys: title, link, snippet
-                        # values: those values from google
-                    # [1] Embedding
-                    # [2] Score
-                # [] next one
-    return search_data
+    multilang_top_hits = get_top_results(search_data, 3)
+    
+    
+    # try to change the description of top 3 best results to revised summary
+    for hit in multilang_top_hits:
+        web_url = hit["link"]
+        # try changing the snippet description for each entry in list
+        try:
+            page_description = get_website_description(web_url)
 
+            if page_description is not None:
+                hit["snippet"] = page_description
 
-search_info = search_user_language("I want to make pizza")
+        # if it doesn't work just do nothing to snippet
+        except:
+            pass  
 
+    return multilang_top_hits
 
-translated_text = translate_text("es", "good morning how do you do")
+# makes sure code isn't ran when imported
+if __name__ == "__main__":
+    # testing for codes
+    language_codes = ["es", "fr", "ja", "it"]
+    multilang_search_info = search_dif_languages(user_search="مصادر الرياضيات للجبر الخطي", languages=language_codes)
+    mulitlang_differences = find_search_differences(multilang_search_info)
 
-# testing for codes
-language_codes = ["es", "fr", "ja"]
-multilang_search_info = search_dif_languages(user_search="I want to make pizza", languages=language_codes)
-
-for mystery, language in multilang_search_info.items():
-    print(f"\nmystery: {mystery} another mystery: {language}\n")
-    for entry in language: # with prompt=es 
-        # item is first (prompt) and second list of dict
-        print(f"what is this and why is it here: {entry}\n\n")
-
-# testing chatgpt response
-example_link = "https://www.myplate.gov/es/recipes/pizza-facil-y-rapida"
-web_description = str(get_website_description(example_link))
-
-print(f"\n\nweb-desc:\n{web_description}\nweb-link:{example_link}")
-
+    print(f"the top 3 hits across all langs: {multilang_search_info}\n\n")
+    print(f"the possible differences between each web page: {mulitlang_differences}")
 
 
 

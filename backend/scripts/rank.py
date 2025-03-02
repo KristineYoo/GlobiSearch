@@ -97,18 +97,19 @@ def get_score(data, lang="en"):
             # compute score
             result[2] = float(cos_sim)
 
-"""TOP RESULTS
-[ Data ] -> [ Result[] ]
-Description:
-Returns the top n results based on the score attributes in the format:
-{
-    'title':
-    'snippet':
-    'link':
-    'lang':
-}
-"""
+
 def get_top_results(data, n):
+    """TOP RESULTS
+    [ Data ] -> [ Result[] ]
+    Description:
+    Returns the top n results based on the score attributes in the format:
+    {
+        'title':
+        'snippet':
+        'link':
+        'lang':
+    }
+    """
     ranked = []
     # for each search result, add its info to the ranked list
     for lang in data:
@@ -127,12 +128,12 @@ def get_top_results(data, n):
 
     return ranked if n > len(ranked) else ranked[:n]
 
-""" Debugging """
+# """ Debugging """
 
-if __name__ == "__main__":
-    results = search_dif_languages("Hi how are you?!", ["en", "fr", "ja"])
-    # add embeddings and rank data
-    add_embeddings(results)
-    get_score(results)
-    print(get_top_results(results, 5))
+# if __name__ == "__main__":
+#     results = search_dif_languages("Hi how are you?!", ["en", "fr", "ja"])
+#     # add embeddings and rank data
+#     add_embeddings(results)
+#     get_score(results)
+#     print(get_top_results(results, 5))
     
