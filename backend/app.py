@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 import json
 from scripts import search
-from scripts.search import search_dif_languages
+from scripts.search import search_dif_languages, change_top_descriptions
 from scripts.rank import add_embeddings, get_score, get_top_results
 
 # create main flask app (no templates)
@@ -13,9 +13,13 @@ def index():
     return "hello, codefest"
 
 
-@app.route("/search", methods=["GET", "POST"])
-def search_page():
-    return "main page"
+@app.route("/api/get-enhanced-descriptions", methods=["GET", "POST"])
+def get_enhanced_descriptions():
+    input = request.get_json()
+    links = list(input['links'])
+    # gets enhanced descriptions as a list in the order the links were sent in
+    return jsonify({'new-desc':change_top_descriptions(links)})
+
 
 # takes the text prompt and returns json of top search reslts
 @app.route("/api/get-search-result", methods=["GET", "POST"])
