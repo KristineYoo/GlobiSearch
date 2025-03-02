@@ -11,7 +11,9 @@ function ResultGrid(items) {
         // get the entire grid and map the results of each dict to frontend
         // mapping each key to its value
         <Grid container spacing={4} justifyContent="center">
-          
+          <Grid size={4}>
+            <ResultCard info={items[0]}></ResultCard>  
+          </Grid>
       </Grid>
     )
 }

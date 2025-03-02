@@ -19,18 +19,23 @@ export default function PromptBox() {
                 languages: selectedLanguages
             };
             console.log(request)
-            axios.post("http://localhost:5000/api/get-search-result", request, {headers: {'Content-Type': 'application/json'}} )
+            useEffect(() => {
+                axios.post("http://localhost:5000/api/get-search-result", request, {headers: {'Content-Type': 'application/json'}} )
             .then((res) => {
                 console.log(res.data)
-            //console.log(res.data.topResults); // Log for debugging
-            setData(res.data.topResults || []); // Assuming the response is like { items: [...] }
+            console.log(res.data.topResults); // Log for debugging
+            setData(res.data || []); // Assuming the response is like { items: [...] }
+            console.log(data[0])
+            setLoading(false)
             })
             .catch((err) => console.log(err));
             // You can replace console.log with your saving logic (e.g., API call)
             setTextInput('');
             setSelectedLanguages([]);
             console.log(data)
-            setLoading(false)
+
+            })
+            
         }
     };
 
