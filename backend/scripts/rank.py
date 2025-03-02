@@ -18,15 +18,17 @@ test_data = {'en':["hello world", [[{'title':"hello world", 'snippet':"stuff"}, 
 """Pre-Processing for Embedding"""
 
 def clean_for_embedding(to_clean):
-    text = to_clean
-    # Remove special characters that don't add meaning
-    text = re.sub(r'[^\w\s.,;:!?()-]', ' ', text)
+    text = to_clean.lower()
+    # Remove special characters and punctuation
+    # text = re.sub(r'[^a-zA-Z0-9\s]', '', text)
+    # # Normalize the numbers
+    # text = re.sub(r'\d+', '#', text)
     # Remove extra whitespace
     text = re.sub(r'\s+', ' ', text).strip()
-    # Remove common filler phrases that don't add semantic value
-    fillers = ["click here", "read more", "learn more", "cookies", "privacy policy"]
-    for filler in fillers:
-        text = text.replace(filler, "")
+    # # Remove common filler phrases that don't add semantic value
+    # fillers = ["click here", "read more", "learn more", "cookies", "privacy policy"]
+    # for filler in fillers:
+    #     text = text.replace(filler, "")
 
     return text
 
@@ -34,9 +36,9 @@ def clean_for_embedding(to_clean):
 def extract_keywords(text, top_n=5):
     # Simple keyword extraction by frequency
     words = re.findall(r'\b[a-zA-Z]{3,15}\b', text.lower())
-    common_words = ["the", "and", "for", "this", "that", "with", "from"]
-    filtered = [w for w in words if w not in common_words]
-    return [word for word, _ in Counter(filtered).most_common(top_n)]
+    # common_words = ["i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours", "yourself", "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its", "itself", "they", "them", "their", "theirs", "themselves", "what", "which", "who", "whom", "this", "that", "these", "those", "am", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "having", "do", "does", "did", "doing", "a", "an", "the", "and", "but", "if", "or", "because", "as", "until", "while", "of", "at", "by", "for", "with", "about", "against", "between", "into", "through", "during", "before", "after", "above", "below", "to", "from", "up", "down", "in", "out", "on", "off", "over", "under", "again", "further", "then", "once", "here", "there", "when", "where", "why", "how", "all", "any", "both", "each", "few", "more", "most", "other", "some", "such", "only", "own", "same", "so", "than", "too", "very", "s", "t", "can", "will", "just", "don", "should", "now"]
+    # filtered = [w for w in words if w not in common_words]
+    return [word for word, _ in Counter(words).most_common(top_n)]
 
 # From Claude:
 def add_keywords(text):
