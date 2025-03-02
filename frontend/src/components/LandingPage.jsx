@@ -1,4 +1,5 @@
 import './LandingPage.css';
+import ResultGrid from './ResultGrid';
 import TryNowButton from './TryNowButton';
 import PromptBox from './PromptBox';
 
@@ -26,7 +27,13 @@ function LandingPage() {
             <span role="img" aria-label="globe">🌐</span>
           </h2>
             <TypewriterButton/>
-          <TryNowButton />
+            <TryNowButton />
+          </div>
+        </div>
+        <div style={{height: '100vh'}}>
+        <h2>Top three results</h2>
+        <ResultGrid/>
+
         </div>
 
       </div>
