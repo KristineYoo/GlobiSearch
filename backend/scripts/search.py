@@ -8,7 +8,7 @@ from google.cloud import translate
 from google.cloud import translate_v2 as translate
 from dotenv import load_dotenv
 from googleapiclient.discovery import build
-from .rank import get_top_results, add_embeddings, get_score
+from rank import get_top_results, add_embeddings, get_score
 
 
 # load env variables and openAI client
@@ -237,10 +237,21 @@ def search_dif_languages(user_search: str, languages: list) -> dict:
     get_score(search_data)
 
     multilang_top_hits = get_top_results(search_data, 3)
-    
-    
+
+    return multilang_top_hits
+
+def change_top_descriptions(top_hits: list[dict]):
+    """
+    ### Returns possible changed descriptions in top 3 hits
+    across all languages
+    - Returns same data structure for best search results
+    (list of dicts) just with changed descriptions from gpt api
+
+    #### args:
+    top_hits: list of dicts
+    """
     # try to change the description of top 3 best results to revised summary
-    for hit in multilang_top_hits:
+    for hit in top_hits:
         web_url = hit["link"]
         # try changing the snippet description for each entry in list
         try:
@@ -253,7 +264,7 @@ def search_dif_languages(user_search: str, languages: list) -> dict:
         except:
             pass  
 
-    return multilang_top_hits
+    return top_hits
 
 
 
@@ -263,7 +274,7 @@ def search_dif_languages(user_search: str, languages: list) -> dict:
 if __name__ == "__main__":
     # testing for codes
     language_codes = ["es", "fr", "ja", "it", "en"]
-    multilang_search_info = search_dif_languages(user_search="who is george washington", languages=language_codes)
+    multilang_search_info = search_dif_languages(user_search="Competitive programming chinese remainder theorem problems", languages=language_codes)
     mulitlang_differences = find_search_differences(multilang_search_info)
 
     print(f"The top 3 hits across all langs: {multilang_search_info}\n\n")
