@@ -35,7 +35,7 @@ function LandingPage() {
         <ResultGrid/>
 
         </div>
-
+      <div>
       </div>
       <div style={{ height: '100vh' }}>
         <PromptBox />
