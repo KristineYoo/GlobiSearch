@@ -3,7 +3,17 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 
-export default function TextfieldBox() {
+export default function TextfieldBox({ value, onChange, onSave }) {
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter' && value.trim() !== '') {
+            onSave();
+        }
+    };
+
+    const handleChange = (event) => {
+        onChange(event.target.value);
+    };
+
     return (
         <Box
             sx={{
@@ -24,9 +34,10 @@ export default function TextfieldBox() {
                     startAdornment: <ManageSearchIcon style={{ color: 'white' }} />,
                 }}
                 id="promptBox-text"
-                multiline
-                rows={1}
                 placeholder="Enter your prompt..."
+                value={value}
+                onChange={handleChange}
+                onKeyPress={handleKeyPress}
                 sx={{
                     "& .MuiOutlinedInput-root": {
                         "& fieldset": { border: "none" },
