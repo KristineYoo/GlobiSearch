@@ -13,7 +13,7 @@ export default function TextfieldBox() {
                 border: 2,
                 borderRadius: 7,
                 '& .MuiTextField-root': { width: '100%' },
-                outline: 'none'
+                outline: 'none',
             }}
             noValidate
             autoComplete="off"
@@ -26,12 +26,15 @@ export default function TextfieldBox() {
                 id="promptBox-text"
                 multiline
                 rows={1}
-                placeholder="  Enter your prompt..."
+                placeholder="Enter your prompt..."
                 sx={{
                     "& .MuiOutlinedInput-root": {
                         "& fieldset": { border: "none" },
                         "&:hover fieldset": { border: "none" },
                         "&.Mui-focused fieldset": { border: "none" }
+                    },
+                    "#promptBox-text": {
+                        marginLeft: '20px',
                     }
                 }}
             />
