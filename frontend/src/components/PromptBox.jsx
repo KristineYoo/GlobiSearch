@@ -2,21 +2,34 @@ import { Box } from '@mui/material';
 import LanguageSelect from './DropdownPromptBox';
 import TextfieldBox from './TextfieldBox';
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 export default function PromptBox() {
     const [textInput, setTextInput] = useState('');
     const [selectedLanguages, setSelectedLanguages] = useState([]);
+    const [data, setData] = useState([]);
+    const [inputValue, setInputValue] = useState('');
 
     const handleSave = () => {
         if (textInput.trim() || selectedLanguages.length > 0) {
             // Save both pieces of data here
-            console.log('Saving data:', {
+            const request={
                 search_query: textInput,
                 languages: selectedLanguages
-            });
+            };
+            console.log(request)
+            setInputValue(textInput)
+            axios.post("http://localhost:5000/api/get-search-result", request, {headers: {'Content-Type': 'application/json'}} )
+            .then((res) => {
+                console.log(res.data)
+            console.log(res.data.topResults); // Log for debugging
+            setData(res.data.topResults || []); // Assuming the response is like { items: [...] }
+            })
+            .catch((err) => console.log(err));
             // You can replace console.log with your saving logic (e.g., API call)
             setTextInput('');
             setSelectedLanguages([]);
+            console.log(data)
         }
     };
 
@@ -46,6 +59,7 @@ export default function PromptBox() {
                 onLanguageChange={setSelectedLanguages}
                 onSave={handleSave}
             />
+            {inputValue !== '' && <ResultGrid></ResultGrid>}
         </div>
     );
 }
