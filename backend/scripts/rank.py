@@ -5,7 +5,7 @@ from sentence_transformers import SentenceTransformer
 import regex as re
 from collections import Counter
 from scipy.spatial.distance import cosine
-from search import search_dif_languages
+# from search import search_dif_languages
 
 """ Model """
 model = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')
@@ -19,13 +19,13 @@ test_data = {'en':["hello world", [[{'title':"hello world", 'snippet':"stuff"}, 
 """Pre-Processing for Embedding"""
 
 def clean_for_embedding(to_clean):
-    text = to_clean
+    text = to_clean.lower()
     # Remove special characters that don't add meaning
-    text = re.sub(r'[^\w\s.,;:!?()-]', ' ', text)
+    text = re.sub(r'[^a-zA-Z0-9\s?!&%$]', ' ', text)
     # Remove extra whitespace
     text = re.sub(r'\s+', ' ', text).strip()
     # Remove common filler phrases that don't add semantic value
-    fillers = ["click here", "read more", "learn more", "cookies", "privacy policy"]
+    fillers = ["click here", "read more", "learn more", "cookies", "privacy policy", "click here"]
     for filler in fillers:
         text = text.replace(filler, "")
 
@@ -130,9 +130,10 @@ def get_top_results(data, n):
 """ Debugging """
 
 if __name__ == "__main__":
-    results = search_dif_languages("Hi how are you?!", ["en", "fr", "ja"])
-    # add embeddings and rank data
-    add_embeddings(results)
-    get_score(results)
-    print(get_top_results(results, 5))
-    
+    # results = search_dif_languages("Hi how are you?!", ["en", "fr", "ja"])
+    # # add embeddings and rank data
+    # add_embeddings(results)
+    # get_score(results)
+    # print(get_top_results(results, 5))
+    print(stringify({'title':'  title 55..', 'snippet':' s& hello'}))
+    print(clean_for_embedding("  title 55.."))
