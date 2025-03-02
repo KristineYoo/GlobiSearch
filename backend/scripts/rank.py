@@ -5,7 +5,6 @@ from sentence_transformers import SentenceTransformer
 import regex as re
 from collections import Counter
 from scipy.spatial.distance import cosine
-from search import search_dif_languages
 
 """ Model """
 model = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')
@@ -129,10 +128,10 @@ def get_top_results(data, n):
 
 """ Debugging """
 
-if __name__ == "__main__":
-    results = search_dif_languages("Hi how are you?!", ["en", "fr", "ja"])
+#if __name__ == "__main__":
+    #results = search_dif_languages("Hi how are you?!", ["en", "fr", "ja"])
     # add embeddings and rank data
-    add_embeddings(results)
-    get_score(results)
-    print(get_top_results(results, 5))
+    #add_embeddings(results)
+    #get_score(results)
+    #print(get_top_results(results, 5))
     

@@ -1,4 +1,5 @@
 import './LandingPage.css';
+import ResultGrid from './ResultGrid';
 import TryNowButton from './TryNowButton';
 import TypewriterButton from './TypewriterButton';
 
@@ -25,6 +26,8 @@ function LandingPage(){
           </div>
         </div>
         <div style={{height: '100vh'}}>
+        <h2>Top three results</h2>
+        <ResultGrid/>
         </div>
         </>
       )
