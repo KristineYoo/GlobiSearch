@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
-from scripts import search
 import json
+from scripts import search
 from scripts.search import search_dif_languages
 from scripts.rank import add_embeddings, get_score, get_top_results
 
