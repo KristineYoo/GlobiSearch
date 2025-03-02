@@ -10,8 +10,7 @@ import LanguageIcon from '@mui/icons-material/Language';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import languages from './DropdownLanguages';
 
-export default function LanguageSelect() {
-    const [selectedLanguages, setSelectedLanguages] = React.useState([]);
+export default function LanguageSelect({ selectedLanguages, onLanguageChange, onSave }) {
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const handleClick = (event) => {
@@ -24,12 +23,27 @@ export default function LanguageSelect() {
 
     const handleLanguageSelect = (language) => {
         if (!selectedLanguages.includes(language.code)) {
-            setSelectedLanguages(prevSelectedLanguages => [...prevSelectedLanguages, language.code]);
+            onLanguageChange(prev => [...prev, language.code]);
         } else {
-            setSelectedLanguages(selectedLanguages.filter(code => code !== language.code));
+            onLanguageChange(selectedLanguages.filter(code => code !== language.code));
         }
-        console.log(selectedLanguages);
     };
+
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter' && selectedLanguages.length > 0) {
+            onSave();
+            handleClose();
+        }
+    };
+
+    React.useEffect(() => {
+        if (anchorEl) {
+            window.addEventListener('keypress', handleKeyPress);
+        }
+        return () => {
+            window.removeEventListener('keypress', handleKeyPress);
+        };
+    }, [anchorEl, selectedLanguages]);
 
     const open = Boolean(anchorEl);
 
@@ -54,7 +68,6 @@ export default function LanguageSelect() {
                 }}
             >
                 <LanguageIcon style={{ color: 'white', marginRight: 8 }} />
-
                 <Box sx={{
                     display: 'flex',
                     flexGrow: 1,
@@ -93,7 +106,6 @@ export default function LanguageSelect() {
                         </>
                     )}
                 </Box>
-
                 <ArrowDropDownIcon
                     sx={{
                         color: 'white',
@@ -125,7 +137,6 @@ export default function LanguageSelect() {
                 <List sx={{ padding: 0 }}>
                     {languages.map((language) => {
                         const isSelected = selectedLanguages.includes(language.code);
-
                         return (
                             <ListItem key={language.code} disablePadding>
                                 <ListItemButton
