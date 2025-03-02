@@ -23,11 +23,12 @@ export default function LanguageSelect() {
     };
 
     const handleLanguageSelect = (language) => {
-        if (!selectedLanguages.some(item => item.label === language.label)) {
-            setSelectedLanguages([...selectedLanguages, language]);
+        if (!selectedLanguages.includes(language.code)) {
+            setSelectedLanguages(prevSelectedLanguages => [...prevSelectedLanguages, language.code]);
         } else {
-            setSelectedLanguages(selectedLanguages.filter(item => item.label !== language.label));
+            setSelectedLanguages(selectedLanguages.filter(code => code !== language.code));
         }
+        console.log(selectedLanguages);
     };
 
     const open = Boolean(anchorEl);
@@ -38,7 +39,6 @@ export default function LanguageSelect() {
                 onClick={handleClick}
                 sx={{
                     display: 'flex',
-
                     alignItems: 'center',
                     color: 'white',
                     border: 1,
@@ -69,7 +69,7 @@ export default function LanguageSelect() {
                         <>
                             {selectedLanguages.length > 0 && (
                                 <Chip
-                                    label={selectedLanguages[0].label}
+                                    label={languages.find(lang => lang.code === selectedLanguages[0]).label}
                                     size="small"
                                     sx={{
                                         color: 'white',
@@ -94,7 +94,6 @@ export default function LanguageSelect() {
                     )}
                 </Box>
 
-                {/* Dropdown arrow */}
                 <ArrowDropDownIcon
                     sx={{
                         color: 'white',
@@ -125,9 +124,7 @@ export default function LanguageSelect() {
             >
                 <List sx={{ padding: 0 }}>
                     {languages.map((language) => {
-                        const isSelected = selectedLanguages.some(
-                            item => item.label === language.label
-                        );
+                        const isSelected = selectedLanguages.includes(language.code);
 
                         return (
                             <ListItem key={language.code} disablePadding>
