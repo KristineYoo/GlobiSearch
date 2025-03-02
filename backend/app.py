@@ -1,6 +1,6 @@
-from flask import Flask
-from scripts import search
+from flask import Flask, jsonify, request
 import json
+from scripts import search
 from scripts.search import search_dif_languages
 from scripts.rank import add_embeddings, get_score, get_top_results
 
@@ -20,17 +20,19 @@ def search_page():
 # takes the text prompt and returns json of top search reslts
 @app.route("/api/get-search-result", methods=["GET", "POST"])
 def get_search_results():
-    search_query = Flask.request.get_json()['search_query']
+    input = request.get_json()
+    search_query=input["search_query"]
+    languages=input["languages"]
     # validate
     if not isinstance(search_query, str):
-        return Flask.jsonify({"message": "Invalid item"}), 400
+        return jsonify({"message": "Invalid item"}), 400
     # search the user prompt and get result data
-    results = search_dif_languages(search_query)
-    # add embeddings and rank data
-    add_embeddings(results)
-    get_score(results)
+    results = search_dif_languages(search_query, languages)
+    # # add embeddings and rank data
+    # add_embeddings(results)
+    # get_score(results)
     # return top 5 results
-    return Flask.jsonify({'top-results':get_top_results(results, 5)})
+    return jsonify({'top-results':results[:5]})
 
 
 
