@@ -1,6 +1,3 @@
-
-
-
 const languages = [
 
     { "label": "English" },
