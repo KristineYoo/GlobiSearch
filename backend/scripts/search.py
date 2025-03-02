@@ -100,7 +100,7 @@ def generate_chatgpt_description(potential_descriptions: str, want_response_obj:
             the page's terminology and specifics etc..) and 
             keep it at 2-3 sentences length at max always. Retain 
             the most important information and give it backed in a nice 
-            formatted short 2-3 sentences length, always remember to always make it in the
+            formatted short 2-3 sentences length (with NO html tags at all), always remember to always make it in the
             specific language inside the html tags. here is the html code.
             
 
@@ -261,8 +261,8 @@ if __name__ == "__main__":
     multilang_search_info = search_dif_languages(user_search="مصادر الرياضيات للجبر الخطي", languages=language_codes)
     mulitlang_differences = find_search_differences(multilang_search_info)
 
-    print(f"the top 3 hits across all langs: {multilang_search_info}\n\n")
-    print(f"the possible differences between each web page: {mulitlang_differences}")
+    print(f"The top 3 hits across all langs: {multilang_search_info}\n\n")
+    print(f"The possible differences between each web page: {mulitlang_differences}")
 
 
 
