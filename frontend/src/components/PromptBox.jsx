@@ -19,8 +19,7 @@ export default function PromptBox() {
                 languages: selectedLanguages
             };
             console.log(request)
-            useEffect(() => {
-                axios.post("http://localhost:5000/api/get-search-result", request, {headers: {'Content-Type': 'application/json'}} )
+            axios.post("http://localhost:5000/api/get-search-result", request, {headers: {'Content-Type': 'application/json'}} )
             .then((res) => {
                 console.log(res.data)
             console.log(res.data.topResults); // Log for debugging
@@ -33,9 +32,6 @@ export default function PromptBox() {
             setTextInput('');
             setSelectedLanguages([]);
             console.log(data)
-
-            })
-            
         }
     };
 
@@ -65,7 +61,8 @@ export default function PromptBox() {
                 onLanguageChange={setSelectedLanguages}
                 onSave={handleSave}
             />
-            {loading !== true && <ResultGrid items={data}></ResultGrid>}
+            <h2>Top three results</h2>
+            {loading !== true &&  <ResultGrid items={data}></ResultGrid>}
         </div>
     );
 }
