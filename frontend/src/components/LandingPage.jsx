@@ -28,18 +28,16 @@ function LandingPage() {
           </h2>
             <TypewriterButton/>
             <TryNowButton />
-          </div>
         </div>
-        <div style={{height: '100vh'}}>
-        <h2>Top three results</h2>
-        <ResultGrid/>
+      </div>
 
-        </div>
-      <div>
+      <div style={{height: '100vh'}}>
+          <PromptBox />
+          <h2>Top three results</h2>
+          <ResultGrid/>
+
       </div>
-      <div style={{ height: '100vh' }}>
-        <PromptBox />
-      </div>
+      
     </>
   )
 }
