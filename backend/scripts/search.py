@@ -215,7 +215,7 @@ def search_dif_languages(user_search: str, languages: list) -> dict:
     code and the value storing the prompt in its requested language and tuple
     with the structured dict returned from 'search_user_language' and the embedding
     """
-    from rank import get_top_results, add_embeddings, get_score
+    from .rank import get_top_results, add_embeddings, get_score
 
     search_data = {}
 
@@ -257,16 +257,6 @@ def search_dif_languages(user_search: str, languages: list) -> dict:
 
 
 # Debugging main functions code:
-
-# makes sure code isn't ran when imported
-if __name__ == "__main__":
-    # testing for codes
-    language_codes = ["es", "fr", "ja", "it", "en"]
-    multilang_search_info = search_dif_languages(user_search="who is george washington", languages=language_codes)
-    mulitlang_differences = find_search_differences(multilang_search_info)
-
-    print(f"The top 3 hits across all langs: {multilang_search_info}\n\n")
-    print(f"The possible differences between each web page: {mulitlang_differences}")
 
 
 
