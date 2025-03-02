@@ -18,7 +18,7 @@ def get_enhanced_descriptions():
     input = request.get_json()
     links = list(input['links'])
     # gets enhanced descriptions as a list in the order the links were sent in
-    return jsonify({'new-desc':change_top_descriptions(links)})
+    return jsonify(change_top_descriptions(links))
 
 
 # takes the text prompt and returns json of top search reslts
