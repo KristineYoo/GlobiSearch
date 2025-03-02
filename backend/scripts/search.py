@@ -254,11 +254,15 @@ def search_dif_languages(user_search: str, languages: list) -> dict:
 
     return multilang_top_hits
 
+
+
+# Debugging main functions code:
+
 # makes sure code isn't ran when imported
 if __name__ == "__main__":
     # testing for codes
-    language_codes = ["es", "fr", "ja", "it"]
-    multilang_search_info = search_dif_languages(user_search="مصادر الرياضيات للجبر الخطي", languages=language_codes)
+    language_codes = ["es", "fr", "ja", "it", "en"]
+    multilang_search_info = search_dif_languages(user_search="who is george washington", languages=language_codes)
     mulitlang_differences = find_search_differences(multilang_search_info)
 
     print(f"The top 3 hits across all langs: {multilang_search_info}\n\n")

@@ -1,6 +1,6 @@
+import json
 from flask import Flask
 from scripts import search
-import json
 from scripts.search import search_dif_languages
 from scripts.rank import add_embeddings, get_score, get_top_results
 
